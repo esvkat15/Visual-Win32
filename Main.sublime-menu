@@ -1,0 +1,17 @@
+[
+    {
+        "caption": "Visual C/MASM",
+        "id": "vcms-tools",
+        "children":
+        [
+            {
+                "caption": "Run Project",
+                "id": "link-and-run"
+            },
+            {
+                "caption": "Generate Assembly",
+                "id": "c-asm"
+            }
+        ]
+    }
+]
