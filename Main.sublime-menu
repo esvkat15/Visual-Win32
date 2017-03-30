@@ -6,11 +6,13 @@
         [
             {
                 "caption": "Run Project",
-                "id": "link-and-run"
+                "id": "link",
+                "command": "run"
             },
             {
                 "caption": "Generate Assembly",
-                "id": "c-asm"
+                "id": "c2asm",
+                "command": "asm_out"
             }
         ]
     }
