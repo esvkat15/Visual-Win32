@@ -16,7 +16,7 @@ class RunCommand(sublime_plugin.WindowCommand):
 
   def run(self):
     self.window.run_command("save_all")
-    self.window.run_command("build", {"args": {"select": True}})
+    self.window.run_command("build", {"select": True})
 
 class AsmOutCommand(sublime_plugin.WindowCommand):
 
