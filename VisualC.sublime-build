@@ -1,6 +1,8 @@
 {
+    "cmd": ["cl", "/c /Fa", "${file}" "&", "subl", "${file}.asm"],
     "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
     "working_dir": "${file_path}",
+    "selector": "source.c",
     //"path": "path:/to/folder/where/cl.exe/located",
     "shell": true,
     "variants":
@@ -19,11 +21,6 @@
             "name": "Assemble",
             "cmd": ["ml", "/c", "${file}"],
             "selector": "source.asm"
-        },
-        {
-            "name": "Convert",
-            "cmd": ["cl", "/c /Fa", "${file}" "&", "subl", "${file}.asm"],
-            "selector": "source.c"
         }
     ]
 }

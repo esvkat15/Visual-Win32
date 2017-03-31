@@ -8,7 +8,6 @@ class RunCommand(sublime_plugin.WindowCommand):
 
   def run(self):
     self.window.run_command("save_all")
-    self.window.run_command("build", {"Variant": "Run"})
 
 class CompileCommand(sublime_plugin.WindowCommand):
 
@@ -21,7 +20,13 @@ class CompileCommand(sublime_plugin.WindowCommand):
 class AsmOutCommand(sublime_plugin.WindowCommand):
 
   def is_enabled(self):
-    return True
+    filename = None
+    if self.window.active_view():
+      filename = self.window.active_view().file_name()
+    if filename is None or not filename.endswith(".c"):
+      filename = None
+    return filename is not None
 
   def run(self):
     self.window.run_command("save")
+    self.window.run_command("build", {"Select": True})
