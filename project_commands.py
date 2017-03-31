@@ -7,7 +7,7 @@ class CompileCommand(sublime_plugin.WindowCommand):
     return True
 
   def run(self):
-    self.window.run_command("save_all")
+    self.window.run_command("save")
 
 class RunCommand(sublime_plugin.WindowCommand):
 
@@ -16,6 +16,7 @@ class RunCommand(sublime_plugin.WindowCommand):
 
   def run(self):
     self.window.run_command("save_all")
+    self.window.run_command("build", {"args": {"select": True}})
 
 class AsmOutCommand(sublime_plugin.WindowCommand):
 
@@ -23,4 +24,4 @@ class AsmOutCommand(sublime_plugin.WindowCommand):
     return True
 
   def run(self):
-    self.window.run_command("save_all")
+    self.window.run_command("save")
