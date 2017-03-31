@@ -8,7 +8,7 @@ class RunCommand(sublime_plugin.WindowCommand):
 
   def run(self):
     self.window.run_command("save_all")
-    self.window.run_command("build", {"select": True, "variant": "Run"})
+    self.window.run_command("build", {"select": True})
 
 class CompileCommand(sublime_plugin.WindowCommand):
 
