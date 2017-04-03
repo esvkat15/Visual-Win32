@@ -29,4 +29,7 @@ class AsmOutCommand(sublime_plugin.WindowCommand):
 
   def run(self):
     self.window.run_command("save")
-    self.window.run_command("build", {"select": False})
+    self.window.run_command("exec", {
+    	"cmd": "cl /?",
+    	"file_regex": "(?i)^(?:ERROR: |WARNING: )[^C-Z]*([C-Z]:[^:]*):([0-9]+):([0-9]*)(.*)$"
+    })
