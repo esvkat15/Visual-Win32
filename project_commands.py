@@ -36,7 +36,8 @@ class AsmOutCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
-		cmd = ["cl", "/c /Fa", "${file}", "&", "subl", "${file}.asm"] #["C:\\Windows\\System32\\sublime\\cl.bat", "/?"]
+		filename = self.window.active_view().file_name()
+		cmd = ["cl", "/c /Fa", filename, "&", "subl", filename + ".asm"] #["C:\\Windows\\System32\\sublime\\cl.bat", "/?"]
 		self.window.run_command("save")
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "(?i)^(?:ERROR: |WARNING: )[^C-Z]*([C-Z]:[^:]*):([0-9]+):([0-9]*)(.*)$"})
 
