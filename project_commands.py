@@ -25,7 +25,7 @@ class AsmOutCommand(sublime_plugin.WindowCommand):
       filename = self.window.active_view().file_name()
     if filename is None or not filename.endswith(".c"):
       filename = None
-    return filename is not None
+    return True#filename is not None
 
   def run(self):
 
