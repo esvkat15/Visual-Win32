@@ -28,8 +28,8 @@ class AsmOutCommand(sublime_plugin.WindowCommand):
     return filename is not None
 
   def run(self):
+
+  	cmd = ["C:\\Windows\\System32\\sublime\\cl.exe"]
+  	cmd += ["/?"]
     self.window.run_command("save")
-    self.window.run_command("exec", {
-    	"cmd": "\"C:\Windows\System32\sublime\cl /?\""#,
-    	#"file_regex": "(?i)^(?:ERROR: |WARNING: )[^C-Z]*([C-Z]:[^:]*):([0-9]+):([0-9]*)(.*)$"
-    })
+    self.window.run_command("exec", {"cmd": cmd, "file_regex": "(?i)^(?:ERROR: |WARNING: )[^C-Z]*([C-Z]:[^:]*):([0-9]+):([0-9]*)(.*)$"})
