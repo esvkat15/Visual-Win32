@@ -35,7 +35,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 			c = 'm'
 		if c:
 			cmd = [command_path + c + "l.bat"] + flags + [self.window.active_view().file_name()]
-			sublime.error_message(self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"}))
+			self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
 
 
 class ToAsmCommand(sublime_plugin.WindowCommand):
