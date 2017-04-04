@@ -30,6 +30,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command("save")
 		if ifext(".c", self.window.active_view()):
+			print("lol")
 			c = 'c'
 		if ifext(".asm", self.window.active_view()):
 			c = 'm'
