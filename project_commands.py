@@ -7,7 +7,7 @@ sflags = ["/Fa"]
 
 def ifext(ext, view):
 
-	return view and view.filename() is not None and view.filename.endswith(ext)
+	return view is not None and view.file_name() is not None and view.file_name().endswith(ext)
 
 class ToExeCommand(sublime_plugin.WindowCommand):
 
