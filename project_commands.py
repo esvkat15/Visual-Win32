@@ -28,15 +28,14 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
-		print("hi")
 		self.window.run_command("save")
 		if ifext(".c", self.window.active_view()):
-			print("lol")
 			c = 'c'
 		if ifext(".asm", self.window.active_view()):
 			c = 'm'
 		if c:
 			cmd = [command_path + c + "l.bat"] + flags + [self.window.active_view().file_name()]
+			self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
 
 
 class ToAsmCommand(sublime_plugin.WindowCommand):
