@@ -1,1 +1,1 @@
-{"dependencies": [], "sublime_text": "*", "description": "Visual C/MASM build system", "version": "1.0.0", "url": "https://github.com/esvkat15/Visual-Compiler/", "platforms": ["windows"]}
+{"dependencies": [], "sublime_text": "*", "description": "Visual C/MASM build system", "version": "1.0.0", "url": "https://github.com/esvkat15/Visual-Win32/", "platforms": ["windows"]}

@@ -1,7 +1,7 @@
 import sublime
 import sublime_plugin
 
-class RunCommand(sublime_plugin.WindowCommand):
+class ToExeCommand(sublime_plugin.WindowCommand):
 
 	def is_enabled(self):
 
@@ -12,7 +12,7 @@ class RunCommand(sublime_plugin.WindowCommand):
 		self.window.run_command("save_all")
 
 
-class CompileCommand(sublime_plugin.WindowCommand):
+class ToObjCommand(sublime_plugin.WindowCommand):
 
 	def is_enabled(self):
 
@@ -23,7 +23,7 @@ class CompileCommand(sublime_plugin.WindowCommand):
 		self.window.run_command("save")
 
 
-class AsmOutCommand(sublime_plugin.WindowCommand):
+class ToAsmCommand(sublime_plugin.WindowCommand):
 
 	def is_enabled(self):
 
@@ -36,9 +36,10 @@ class AsmOutCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
+		path = "C:\\Windows\\System32\\sublime\\"
 		filename = self.window.active_view().file_name()
 		flags = ["/c", "/Fa"]
-		cmd = ["cl"] + flags + [ filename, "&", "subl", filename + ".asm"] #["C:\\Windows\\System32\\sublime\\cl.bat", "/?"]
+		cmd = [path + "cl.bat"] + flags + [filename, "&", path + "subl.exe", filename.replace(".c",".asm")]
 		self.window.run_command("save")
-		self.window.run_command("exec", {"cmd": cmd, "file_regex": "(?i)^(?:ERROR: |WARNING: )[^C-Z]*([C-Z]:[^:]*):([0-9]+):([0-9]*)(.*)$"})
+		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
 

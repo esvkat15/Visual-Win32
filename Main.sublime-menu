@@ -7,12 +7,12 @@
             {
                 "caption": "Run Project",
                 "id": "link",
-                "command": "run"
+                "command": "to_exe"
             },
             {
                 "caption": "Generate Assembly",
-                "id": "c2asm",
-                "command": "asm_out"
+                "id": "compile",
+                "command": "to_asm"
             }
         ]
     }
