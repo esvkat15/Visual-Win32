@@ -28,6 +28,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
+		print("hi")
 		self.window.run_command("save")
 		if ifext(".c", self.window.active_view()):
 			print("lol")
