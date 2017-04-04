@@ -1,5 +1,5 @@
 {
-    "cmd": ["cl", "/c /Fa", "${file}" "&", "subl", "${file}.asm"],
+    "cmd": ["cl", "/c /Fa", "${file}", "&", "subl", "${file}.asm"],
     "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
     "working_dir": "${file_path}",
     "selector": "source.c",
