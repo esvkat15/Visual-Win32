@@ -1,5 +1,6 @@
 import sublime
 import sublime_plugin
+import os
 
 command_path = "C:\\Windows\\System32\\sublime\\"
 flags = ["/c"]
@@ -18,6 +19,11 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 	def run(self):
 
 		self.window.run_command("save_all") #taskkill /IM "path\main.exe" 2> nul
+		temp_path = "C:\\Users\\Matty\\Desktop\\newfile.txt"
+		f = open(temp_path)
+		cmd = ["tasklist", "/v", ">", temp_path, "&", "echo", f.read()]
+		f.close()
+		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
 
 
 class ToObjCommand(sublime_plugin.WindowCommand):
