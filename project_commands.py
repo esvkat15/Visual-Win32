@@ -19,10 +19,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 	def run(self):
 
 		self.window.run_command("save_all") #taskkill /IM "path\main.exe" 2> nul
-		temp_path = "C:\\Users\\Matty\\Desktop\\newfile.txt"
-		f = open(temp_path)
-		cmd = ["tasklist", "/v", ">", temp_path, "&", "echo", f.read(), ">&1"]
-		f.close()
+		cmd = ["tasklist", "/v", "|", "echo"]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
 
 
