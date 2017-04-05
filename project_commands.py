@@ -21,7 +21,9 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		self.window.run_command("save_all") #taskkill /IM "path\main.exe" 2> nul
 		cmd = ["tasklist", "/v", "|", "echo"]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
-		sublime.error_message("Can't locate 'main.lua' for this project (try opening it in an editor tab)")
+		sublime.error_message(os.path.split(self.window.active_view().file_name())[0])
+		#with open(os.path.split(self.window.active_view().file_name())[0]) as f:
+		#	sublime.error_message(f.readline())
 
 
 class ToObjCommand(sublime_plugin.WindowCommand):
