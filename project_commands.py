@@ -21,9 +21,9 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		self.window.run_command("save_all") #taskkill /IM "path\main.exe" 2> nul
 		filename = self.window.active_view().file_name()
 		t = os.path.split(filename)[0] + '\\' + "new.txt"
-		cmd = ["tasklist", "/v" > temp]
+		cmd = ["tasklist", "/v" > t]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
-		sublime.error_message(temp)
+		sublime.error_message(t)
 		#with open(os.path.split(self.window.active_view().file_name())[0]) as f:
 		#	sublime.error_message(f.readline())
 
