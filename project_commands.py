@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, os, tempfile
+import sublime, sublime_plugin, os, hashlib
 
 command_path = "C:\\Windows\\System32\\sublime\\"
 flags = ["/c"]
@@ -18,8 +18,9 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command("save_all")
 		#taskkill /IM "path\main.exe" 2> nul
-		filename = self.window.active_view().file_name()
-		n = tempfile.NamedTemporaryFile(mode = "a", suffix = ".txt", dir = os.path.split(filename)[0]).name
+		s = hashlib.sha1()
+		s.update(os.path.split(self.window.active_view().file_name())[0])
+		n = "C:\\Windows\\Temp\\" + s.hexdigest() + ".txt"
 		cmd = ["tasklist", "/FI", "SESSIONNAME eq Console", "|", "findstr", "main.exe", ">", n]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 		with open(n) as f:
