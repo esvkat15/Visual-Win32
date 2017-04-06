@@ -20,7 +20,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		#taskkill /IM "path\main.exe" 2> nul
 		s = hashlib.sha1()
 		s.update(os.path.split(self.window.active_view().file_name())[0])
-		n = "C:\\Windows\\Temp\\" + s.hexdigest() + ".txt"
+		n = "C:\\Windows\\Temp\\subl\\" + s.hexdigest() + ".txt"
 		cmd = ["tasklist", "/FI", "SESSIONNAME eq Console", "|", "findstr", "main.exe", ">", n]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 		with open(n) as f:
