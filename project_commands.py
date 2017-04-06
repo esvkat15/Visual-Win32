@@ -41,7 +41,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		#time.sleep(1)
 		with open(n) as f:
 
-			sublime.error_message(f.readline())
+			sublime.error_message(f.read())
 			
 		cmd = ["del", n]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
