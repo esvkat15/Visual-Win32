@@ -26,13 +26,15 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 			try:
 
-				f = open(n)
-				f.close()
-				break
+				open(n).close()
 
 			except:
 
-				pass
+				continue
+
+			else:
+
+				break
 			
 		with open(n) as f:
 
