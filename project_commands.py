@@ -19,12 +19,13 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		self.window.run_command("save_all")
 		#taskkill /IM "path\main.exe" 2> nul
 		filename = self.window.active_view().file_name()
-		f = tempfile.NamedTemporaryFile(mode = "w+", suffix = ".txt", dir = os.path.split(filename)[0], delete = False)
-		n = f.name
-		f.close()
+		n = tempfile.NamedTemporaryFile(mode = "a", suffix = ".txt", dir = os.path.split(filename)[0]).name
 		cmd = ["tasklist", "/FI", "SESSIONNAME eq Console", "|", "findstr", "main.exe", ">", n]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
-		f = open(n, "w+")
+		while not name in f:
+
+				f = open(n)
+
 		sublime.error_message(f.readline())
 		f.close()
 		cmd = ["del", n]
