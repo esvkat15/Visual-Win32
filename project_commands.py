@@ -22,17 +22,10 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		n = tempfile.NamedTemporaryFile(mode = "a", suffix = ".txt", dir = os.path.split(filename)[0]).name
 		cmd = ["tasklist", "/FI", "SESSIONNAME eq Console", "|", "findstr", "main.exe", ">", n]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
-		class falseobject():
-			def __init__(self):
-				self.name = ""
+		with open(n) as f:
 
-		f = falseobject()
-		while f.name is not "":
+			sublime.error_message(f.readline())
 
-				f = open(n)
-
-		sublime.error_message(f.readline())
-		f.close()
 		cmd = ["del", n]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 
@@ -46,13 +39,20 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 	def run(self):
 
 		self.window.run_command("save")
+		c = None
 		if ifext(".c", self.window.active_view()):
+
 			c = "c"
+
 		if ifext(".asm", self.window.active_view()):
+
 			c = "m"
+
 		if c:
+
 			cmd = [command_path + c + "l.bat"] + flags + [self.window.active_view().file_name()]
 			self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
+
 
 
 class ToAsmCommand(sublime_plugin.WindowCommand):
