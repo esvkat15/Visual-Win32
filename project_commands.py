@@ -27,7 +27,8 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		f = open(n, "w+")
 		sublime.error_message(f.readline())
 		f.close()
-		self.window.run_command("exec", {"cmd": ["del", n]})
+		cmd = ["del", n]
+		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 
 
 class ToObjCommand(sublime_plugin.WindowCommand):
