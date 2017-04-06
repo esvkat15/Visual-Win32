@@ -16,13 +16,18 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
-		self.window.run_command("save_all") #taskkill /IM "path\main.exe" 2> nul
+		self.window.run_command("save_all")
+		#taskkill /IM "path\main.exe" 2> nul
 		filename = self.window.active_view().file_name()
-		#t = os.path.split(filename)[0] + "\\new.txt"
-		with tempfile.NamedTemporaryFile(mode = "w+", dir = os.path.split(filename)[0]) as f:
-			cmd = ["tasklist", "/FI", "SESSIONNAME eq Console", "|", "findstr", "main.exe", ">", f.name]
-			self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
-			sublime.error_message(f.readline())
+		f = tempfile.NamedTemporaryFile(mode = "w+", dir = os.path.split(filename)[0], delete = False)
+		n = f.name
+		f.close()
+		cmd = ["tasklist", "/FI", "SESSIONNAME eq Console", "|", "findstr", "main.exe", ">", n]
+		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
+		f = open(n, "w+")
+		sublime.error_message(f.readline())
+		f.close()
+		self.window.run_command("exec", {"cmd": ["del", n]})
 
 
 class ToObjCommand(sublime_plugin.WindowCommand):
