@@ -19,7 +19,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		self.window.run_command("save_all")
 		#taskkill /IM "path\main.exe" 2> nul
 		filename = self.window.active_view().file_name()
-		f = tempfile.NamedTemporaryFile(mode = "w+", suffix = "tmp", dir = os.path.split(filename)[0], delete = False)
+		f = tempfile.NamedTemporaryFile(mode = "w+", suffix = ".tmp", dir = os.path.split(filename)[0], delete = False)
 		n = f.name
 		f.close()
 		cmd = ["tasklist", "/FI", "SESSIONNAME eq Console", "|", "findstr", "main.exe", ">", n]
