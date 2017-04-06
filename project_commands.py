@@ -17,12 +17,10 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 	def run(self):
 
 		self.window.run_command("save_all")
-		#taskkill /IM "path\main.exe" 2> nul
 		s = hashlib.sha1()
 		s.update(os.path.split(self.window.active_view().file_name())[0].encode())
 		n = "C:\\Windows\\Temp\\subl\\" + s.hexdigest() + ".txt"
-		cmd = ["md", os.path.split(n)[0], "2>", "nul", "&", "cd.", ">", n, "&", "tasklist", ">", n]
-		#cmd = ["tasklist", "/FI", "SESSIONNAME eq Console", "|", "findstr", "main.exe", ">", n]
+		cmd = ["md", os.path.split(n)[0], "2>", "nul", "&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", n]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 		with open(n) as f:
 
