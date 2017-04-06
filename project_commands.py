@@ -21,8 +21,8 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		self.window.run_command("save_all") #taskkill /IM "path\main.exe" 2> nul
 		filename = self.window.active_view().file_name()
 		t = os.path.split(filename)[0] + '\\' + "new.txt"
-		cmd = ["tasklist", "/FI", "\"IMAGENAME eq main.exe\"", "/FI", "\"SESSIONNAME eq Console\"", "/NH", ">", t]
-		self.window.run_command("exec", {"shell_cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
+		cmd = ["tasklist", "/FI", "\"IMAGENAME", "eq", "main.exe\"", "/FI", "\"SESSIONNAME", "eq", "Console\"", "/NH", ">", t]
+		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
 		with open(t) as f:
 			sublime.error_message(f.readline() + f.readline())
 
@@ -37,9 +37,9 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command("save")
 		if ifext(".c", self.window.active_view()):
-			c = 'c'
+			c = "c"
 		if ifext(".asm", self.window.active_view()):
-			c = 'm'
+			c = "m"
 		if c:
 			cmd = [command_path + c + "l.bat"] + flags + [self.window.active_view().file_name()]
 			self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
