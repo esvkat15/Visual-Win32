@@ -22,7 +22,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		n = tempfile.NamedTemporaryFile(mode = "a", suffix = ".txt", dir = os.path.split(filename)[0]).name
 		cmd = ["tasklist", "/FI", "SESSIONNAME eq Console", "|", "findstr", "main.exe", ">", n]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
-		while not name in f:
+		while f.name not in f.name:
 
 				f = open(n)
 
