@@ -22,21 +22,23 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		n = "C:\\Windows\\Temp\\subl\\" + s.hexdigest() + ".txt"
 		cmd = ["md", os.path.split(n)[0], "2>", "nul", "&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", n]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
-		# while True:
+		while True:
 
-		# 	try:
+			f = None
+			try:
 
-		# 		open(n).close()
+				f = open(n)
 
-		# 	except:
+			except:
 
-		# 		continue
+				continue
 
-		# 	else:
+			else:
 
-		# 		break
+				f.close()
+				break
 			
-		time.sleep(1)
+		#time.sleep(1)
 		with open(n) as f:
 
 			sublime.error_message(f.readline())
