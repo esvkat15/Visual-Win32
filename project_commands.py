@@ -1,6 +1,6 @@
 import sublime, sublime_plugin, os, hashlib
 
-# subl_print = sublime.message_dialog
+subl_print = sublime.message_dialog
 
 env = ["C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat", "x86", "&"]
 
@@ -87,7 +87,8 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 
 	def is_enabled(self):
 
-		return chext(self.window.active_view()) is "cl"
+		subl_print(chext(self.window.active_view()))
+		return "c" in chext(self.window.active_view())
 
 	def run(self):
 
