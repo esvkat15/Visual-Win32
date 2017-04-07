@@ -1,6 +1,6 @@
 import sublime, sublime_plugin, os, hashlib
 
-pndb = sublime.message_dialog # sublime wont let me just print shit
+subl_print = sublime.message_dialog
 
 command_path = "C:\\Windows\\System32\\sublime\\"
 temp_path = "C:\\Windows\\Temp\\subl\\"
@@ -59,7 +59,8 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 	def run(self):
 
 		self.window.run_command("save_all")
-		cmd = ["taskkill", "/IM", "main.exe", "2>", "nul"]
+		filepath = os.path.split(self.window.active_view().file_name())[0]
+		cmd = ["taskkill", "/IM", "main.exe", "2>", "nul", "&", command_path + "link.bat", "/OUT:" + filepath + "\\main.exe", filepath + "\\*.obj", "&", filepath + "\\main.exe"]
 		cmexe(cmd, self.window)
 
 
@@ -85,7 +86,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 			cmd = [command_path + c + "l.bat"] + flags + [self.window.active_view().file_name()]
 			cmexe(cmd, self.window)
-			if "INFO: No tasks are running which match the specified criteria." in chpro(self.window):
+			if "INFO: No tasks are running which match the specified criteria." not in chpro(self.window):
 
 				self.window.run_command("to_exe")
 
