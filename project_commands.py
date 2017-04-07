@@ -2,21 +2,21 @@ import sublime, sublime_plugin, os, hashlib
 
 subl_print = sublime.message_dialog
 
-def cmexe(cmd, window)
+def cmexe(c, w)
 
-	window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
+	w.run_command("exec", {"cmd": c, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 
-def ifext(ext, view):
+def ifext(e, v):
 
-	return view is not None and view.file_name() is not None and view.file_name().endswith(ext)
+	return v and v.file_name() and v.file_name().endswith(e)
 
-def chpro(window):
+def chpro(w):
 
 	s = hashlib.sha1()
-	s.update(os.path.split(window.active_view().file_name())[0].encode())
+	s.update(os.path.split(w.active_view().file_name())[0].encode())
 	n = "C:\\Windows\\Temp\\subl\\" + s.hexdigest() + ".txt"
 	cmd = ["md", os.path.split(n)[0], "2>", "nul", "&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", n]
-	cmexe(cmd, window)
+	cmexe(cmd, w)
 	while True:
 
 		s = None
@@ -42,7 +42,7 @@ def chpro(window):
 		s = f.read()
 		
 	cmd = ["del", n]
-	cmexe(cmd, window)
+	cmexe(cmd, w)
 	return s
 
 class ToExeCommand(sublime_plugin.WindowCommand):
