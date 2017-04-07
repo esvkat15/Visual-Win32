@@ -1,3 +1,13 @@
+/*  This json adds a compile
+ *  functionality to the save shortcut
+ */ 
+
 [
-	{ "keys": ["ctrl+s"], "command": "to_obj" }
+	{
+		"command": "to_obj",
+		"keys":
+		[
+			"ctrl+s"
+		]
+	}
 ]

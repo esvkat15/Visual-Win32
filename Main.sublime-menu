@@ -1,3 +1,7 @@
+/*  This json adds options
+ *  to sublime's menu bar
+ */ 
+
 [
     {
         "caption": "Visual C/MASM",

@@ -2,24 +2,23 @@ import sublime, sublime_plugin, os, hashlib
 
 # subl_print = sublime.message_dialog
 
-def cmexe(c, w):
+def cmexe(w, c):
 
 	w.run_command("exec", {"cmd": c, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 
 def ifext(e, v):
 
-	return v and v.file_name() and v.file_name().endswith(e)
+	n = v.file_name()
+	return v and n and n.endswith(e)
 
 def chpro(w):
 
 	s = hashlib.sha1()
 	s.update(os.path.split(w.active_view().file_name())[0].encode())
 	n = "C:\\Windows\\Temp\\subl\\" + s.hexdigest() + ".txt"
-	cmd = ["md", os.path.split(n)[0], "2>", "nul", "&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", n]
-	cmexe(cmd, w)
+	cmexe(w, ["md", os.path.split(n)[0], "2>", "nul", "&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", n])
 	while True:
 
-		s = None
 		try:
 
 			s = os.stat(n).st_size
@@ -41,22 +40,24 @@ def chpro(w):
 
 		s = f.read()
 		
-	cmd = ["del", n]
-	cmexe(cmd, w)
+	cmexe(w, ["del", n])
 	return s
 
 class ToExeCommand(sublime_plugin.WindowCommand):
 
 	def is_enabled(self):
 
-		return ifext(".c", self.window.active_view()) or ifext(".asm", self.window.active_view())
+		v = self.window.active_view()
+		return ifext(".c", v) or ifext(".asm", v)
 
 	def run(self):
 
-		self.window.run_command("save_all")
-		filename = os.path.split(self.window.active_view().file_name())[0] + "\\main.exe"
-		cmd = ["taskkill", "/F", "/IM", "main.exe", "2>&1", ">", "nul", "&", "C:\\Windows\\System32\\sublime\\link.bat", "/OUT:" + filename, filename.replace( "\\main.exe", "\\*.obj"), "&", filename]
-		cmexe(cmd, self.window)
+		w = self.window
+		w.run_command("save_all")
+		n = os.path.split(w.active_view().file_name())[0] + "\\main.exe"
+		cmexe(w, ["taskkill", "/F", "/IM", "main.exe", "2>&1", ">", "nul"])
+		w.run_command("to_obj")
+		cmexe(w, ["C:\\Windows\\System32\\sublime\\link.bat", "/OUT:" + n, n.replace( "\\main.exe", "\\*.obj"), "&", n])
 
 
 class ToObjCommand(sublime_plugin.WindowCommand):
@@ -67,15 +68,16 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
-		self.window.run_command("save")
-		if ifext(".c", self.window.active_view()) or ifext(".asm", self.window.active_view()):
+		w = self.window
+		v = w.active_view()
+		w.run_command("save")
+		if ifext(".c", v) or ifext(".asm", v):
 
-			filename = self.window.active_view().file_name()
-			cmd = ["C:\\Windows\\System32\\sublime\\%sl.bat" % filename[-1], "/c", filename]
-			cmexe(cmd, self.window)
-			if "INFO: No tasks are running which match the specified criteria." not in chpro(self.window):
+			n = v.file_name()
+			cmexe(w, ["C:\\Windows\\System32\\sublime\\%sl.bat" % n[-1], "/c", n])
+			if "INFO: No tasks are running which match the specified criteria." not in chpro(w):
 
-				self.window.run_command("to_exe")
+				w.run_command("to_exe")
 				
 
 
@@ -88,8 +90,8 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
-		self.window.run_command("save")
-		filename = self.window.active_view().file_name()
-		cmd = ["C:\\Windows\\System32\\sublime\\cl.bat", "/c", "/Fa", filename, "&", "C:\\Windows\\System32\\sublime\\subl.exe", filename.replace(".c", ".asm")]
-		cmexe(cmd, self.window)
+		w = self.window
+		w.run_command("save")
+		n = w.active_view().file_name()
+		cmexe(w, ["C:\\Windows\\System32\\sublime\\cl.bat", "/c", "/Fa", n, "&", "C:\\Windows\\System32\\sublime\\subl.exe", n.replace(".c", ".asm")])
 

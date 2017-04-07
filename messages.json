@@ -1,3 +1,4 @@
+// installation and version messages
 {
-    "install": "messages/install.txt"
+	"install": "messages/install.txt"
 }
