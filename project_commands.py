@@ -59,8 +59,8 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 	def run(self):
 
 		self.window.run_command("save_all")
-		filepath = os.path.split(self.window.active_view().file_name())[0]
-		cmd = ["taskkill", "/IM", "main.exe", "2>", "nul", "&", command_path + "link.bat", "/OUT:" + filepath + "\\main.exe", filepath + "\\*.obj", "&", filepath + "\\main.exe"]
+		filename = os.path.split(self.window.active_view().file_name())[0] + "\\main.exe"
+		cmd = ["taskkill", "/IM", "main.exe", "2>", "nul", "&", command_path + "link.bat", "/OUT:" + filename, filename.replace( "\\main.exe", "\\*.obj"), "&", filename]
 		cmexe(cmd, self.window)
 
 
