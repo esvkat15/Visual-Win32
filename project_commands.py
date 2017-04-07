@@ -55,7 +55,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command("save_all")
 		filename = os.path.split(self.window.active_view().file_name())[0] + "\\main.exe"
-		cmd = ["taskkill", "/F", "/IM", "main.exe", ">", "2>", "nul", "&", "C:\\Windows\\System32\\sublime\\link.bat", "/OUT:" + filename, filename.replace( "\\main.exe", "\\*.obj"), "&", filename]
+		cmd = ["taskkill", "/F", "/IM", "main.exe", "2>&1", ">", "nul", "&", "C:\\Windows\\System32\\sublime\\link.bat", "/OUT:" + filename, filename.replace( "\\main.exe", "\\*.obj"), "&", filename]
 		cmexe(cmd, self.window)
 
 
@@ -79,7 +79,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 		if c:
 
-			cmd = ["C:\\Windows\\System32\\sublime\\" + c + "l.bat", "/c", self.window.active_view().file_name()]
+			cmd = ["C:\\Windows\\System32\\sublime\\%sl.bat" % c, "/c", self.window.active_view().file_name()]
 			cmexe(cmd, self.window)
 			if not "INFO: No tasks are running which match the specified criteria." in chpro(self.window):
 
