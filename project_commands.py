@@ -42,7 +42,7 @@ def chpro(window):
 		s = f.read()
 		
 	cmd = ["del", n]
-	window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
+	window.run_command("exec", {"shell_cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
 	return s
 
 class ToExeCommand(sublime_plugin.WindowCommand):
@@ -55,7 +55,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command("save_all")
 		cmd = ["taskkill", "/IM", "main.exe", "2>", "nul"]
-		window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
+		window.run_command("exec", {"shell_cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
 
 
 
@@ -80,7 +80,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 		if c:
 
 			cmd = [command_path + c + "l.bat"] + flags + [self.window.active_view().file_name()]
-			self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
+			self.window.run_command("exec", {"shell_cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
 
 		if 'INFO: No tasks are running which match the specified criteria.' in chpro(self.window):
 
@@ -99,7 +99,7 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 		self.window.run_command("save")
 		filename = self.window.active_view().file_name()
 		cmd = [command_path + "cl.bat"] + flags + sflags + [filename, "&", command_path + "subl.exe", filename.replace(".c", ".asm")]
-		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
+		self.window.run_command("exec", {"shell_cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
 
 
 print = oldprint
