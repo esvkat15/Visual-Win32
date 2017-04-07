@@ -1,6 +1,6 @@
 import sublime, sublime_plugin, os, hashlib
 
-subl_print = sublime.message_dialog
+# subl_print = sublime.message_dialog
 
 def cmexe(c, w):
 
@@ -68,11 +68,10 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 	def run(self):
 
 		self.window.run_command("save")
-		c = (ifext(".c", self.window.active_view()) and "c") or (ifext(".asm", self.window.active_view()) and "m") or None
-		if c:
+		if ifext(".c", self.window.active_view()) or ifext(".asm", self.window.active_view()):
 
-			cmd = ["C:\\Windows\\System32\\sublime\\%*[^cm]*%[cm]l.bat" % c, "/c", self.window.active_view().file_name()]
-			subl_print('cl' in cmd)
+			filename = self.window.active_view().file_name()
+			cmd = ["C:\\Windows\\System32\\sublime\\%sl.bat" % filename[-1], "/c", filename]
 			cmexe(cmd, self.window)
 			if "INFO: No tasks are running which match the specified criteria." not in chpro(self.window):
 
