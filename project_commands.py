@@ -2,8 +2,6 @@ import sublime, sublime_plugin, os, hashlib
 
 subl_print = sublime.message_dialog
 
-command_path = "C:\\Windows\\System32\\sublime\\"
-
 def cmexe(cmd, window)
 
 	window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
@@ -57,7 +55,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command("save_all")
 		filename = os.path.split(self.window.active_view().file_name())[0] + "\\main.exe"
-		cmd = ["taskkill", "/IM", "main.exe", "2>", "nul", "&", command_path + "link.bat", "/OUT:" + filename, filename.replace( "\\main.exe", "\\*.obj"), "&", filename]
+		cmd = ["taskkill", "/IM", "main.exe", "2>", "nul", "&", "C:\\Windows\\System32\\sublime\\" + "link.bat", "/OUT:" + filename, filename.replace( "\\main.exe", "\\*.obj"), "&", filename]
 		cmexe(cmd, self.window)
 
 
@@ -81,7 +79,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 		if c:
 
-			cmd = [command_path + c + "l.bat", "/c", self.window.active_view().file_name()]
+			cmd = ["C:\\Windows\\System32\\sublime\\" + c + "l.bat", "/c", self.window.active_view().file_name()]
 			cmexe(cmd, self.window)
 			if not "INFO: No tasks are running which match the specified criteria." in chpro(self.window):
 
@@ -100,6 +98,6 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command("save")
 		filename = self.window.active_view().file_name()
-		cmd = [command_path + "cl.bat", "/c", "/Fa", filename, "&", command_path + "subl.exe", filename.replace(".c", ".asm")]
+		cmd = ["C:\\Windows\\System32\\sublime\\" + "cl.bat", "/c", "/Fa", filename, "&", "C:\\Windows\\System32\\sublime\\" + "subl.exe", filename.replace(".c", ".asm")]
 		cmexe(cmd, self.window)
 
