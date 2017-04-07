@@ -68,7 +68,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 	def run(self):
 
 		self.window.run_command("save")
-		#c = None
+		c = None
 		if ifext(".c", self.window.active_view()):
 
 			c = "c"
@@ -81,7 +81,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 			cmd = ["C:\\Windows\\System32\\sublime\\%sl.bat" % c, "/c", self.window.active_view().file_name()]
 			cmexe(cmd, self.window)
-			if not "INFO: No tasks are running which match the specified criteria." in chpro(self.window):
+			if "INFO: No tasks are running which match the specified criteria." not in chpro(self.window):
 
 				self.window.run_command("to_exe")
 
