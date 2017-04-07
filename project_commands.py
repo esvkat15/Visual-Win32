@@ -3,9 +3,6 @@ import sublime, sublime_plugin, os, hashlib
 subl_print = sublime.message_dialog
 
 command_path = "C:\\Windows\\System32\\sublime\\"
-temp_path = "C:\\Windows\\Temp\\subl\\"
-flags = ["/c"]
-sflags = ["/Fa"]
 
 def cmexe(cmd, window)
 
@@ -19,7 +16,7 @@ def chpro(window):
 
 	s = hashlib.sha1()
 	s.update(os.path.split(window.active_view().file_name())[0].encode())
-	n = temp_path + s.hexdigest() + ".txt"
+	n = "C:\\Windows\\Temp\\subl\\" + s.hexdigest() + ".txt"
 	cmd = ["md", os.path.split(n)[0], "2>", "nul", "&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", n]
 	cmexe(cmd, window)
 	while True:
@@ -84,9 +81,9 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 		if c:
 
-			cmd = [command_path + c + "l.bat"] + flags + [self.window.active_view().file_name()]
+			cmd = [command_path + c + "l.bat", "/c", self.window.active_view().file_name()]
 			cmexe(cmd, self.window)
-			if "INFO: No tasks are running which match the specified criteria." not in chpro(self.window):
+			if not "INFO: No tasks are running which match the specified criteria." in chpro(self.window):
 
 				self.window.run_command("to_exe")
 
@@ -103,6 +100,6 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command("save")
 		filename = self.window.active_view().file_name()
-		cmd = [command_path + "cl.bat"] + flags + sflags + [filename, "&", command_path + "subl.exe", filename.replace(".c", ".asm")]
+		cmd = [command_path + "cl.bat", "/c", "/Fa", filename, "&", command_path + "subl.exe", filename.replace(".c", ".asm")]
 		cmexe(cmd, self.window)
 
