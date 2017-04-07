@@ -1,7 +1,7 @@
 import sublime, sublime_plugin, os, hashlib
 
-# oldprint = print
-# print = sublime.message_dialog # sublime wont let me just print shit
+oldprint = print
+print = sublime.message_dialog # sublime wont let me just print shit
 
 command_path = "C:\\Windows\\System32\\sublime\\"
 flags = ["/c"]
@@ -102,4 +102,4 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 
 
-# print = oldprint
+print = oldprint
