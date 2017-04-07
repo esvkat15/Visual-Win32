@@ -1,9 +1,9 @@
 import sublime, sublime_plugin, os, hashlib
 
-oldprint = print
-print = sublime.message_dialog # sublime wont let me just print shit
+pndb = sublime.message_dialog # sublime wont let me just print shit
 
 command_path = "C:\\Windows\\System32\\sublime\\"
+temp_path = "C:\\Windows\\Temp\\subl\\"
 flags = ["/c"]
 sflags = ["/Fa"]
 
@@ -15,7 +15,7 @@ def chpro(window):
 
 	s = hashlib.sha1()
 	s.update(os.path.split(window.active_view().file_name())[0].encode())
-	n = "C:\\Windows\\Temp\\subl\\" + s.hexdigest() + ".txt"
+	n = temp_path + s.hexdigest() + ".txt"
 	cmd = ["md", os.path.split(n)[0], "2>", "nul", "&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", n]
 	window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 	while True:
@@ -37,6 +37,7 @@ def chpro(window):
 
 			break
 
+
 	with open(n) as f:
 
 		s = f.read()
@@ -54,9 +55,8 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 	def run(self):
 
 		self.window.run_command("save_all")
-		# cmd = ["taskkill", "/IM", "main.exe", "2>", "nul"]
-		# window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
-
+		cmd = ["taskkill", "/IM", "main.exe", "2>", "nul"]
+		window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 
 
 class ToObjCommand(sublime_plugin.WindowCommand):
@@ -81,10 +81,10 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 			cmd = [command_path + c + "l.bat"] + flags + [self.window.active_view().file_name()]
 			self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
+			if "INFO: No tasks are running which match the specified criteria." in chpro(self.window):
 
-		if 'INFO: No tasks are running which match the specified criteria.' in chpro(self.window):
+				self.window.run_command("to_exe")
 
-			self.window.run_command("to_exe")
 
 
 
@@ -101,5 +101,3 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 		cmd = [command_path + "cl.bat"] + flags + sflags + [filename, "&", command_path + "subl.exe", filename.replace(".c", ".asm")]
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 
-
-print = oldprint
