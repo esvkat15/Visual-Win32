@@ -91,5 +91,7 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 		w = self.window
 		w.run_command("save")
 		n = w.active_view().file_name()
-		cmexe(w, ["C:\\Windows\\System32\\sublime\\cl.bat", "/c", "/Fa", n, "&", "C:\\Windows\\System32\\sublime\\subl.exe", n.replace(".c", ".asm")])
+		cmexe(w, ["C:\\Windows\\System32\\sublime\\cl.bat", "/c", "/Fa", n])
+		w.open_file(n.replace(".c", ".asm"))
+		#cmexe(w, ["C:\\Windows\\System32\\sublime\\subl.exe", n.replace(".c", ".asm")])
 
