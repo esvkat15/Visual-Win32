@@ -55,7 +55,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command("save_all")
 		filename = os.path.split(self.window.active_view().file_name())[0] + "\\main.exe"
-		cmd = ["taskkill", "/F", "/IM", "main.exe", "2>", "nul", "&", "C:\\Windows\\System32\\sublime\\" + "link.bat", "/OUT:" + filename, filename.replace( "\\main.exe", "\\*.obj"), "&", filename]
+		cmd = ["taskkill", "/F", "/IM", "main.exe", ">", "2>", "nul", "&", "C:\\Windows\\System32\\sublime\\link.bat", "/OUT:" + filename, filename.replace( "\\main.exe", "\\*.obj"), "&", filename]
 		cmexe(cmd, self.window)
 
 
@@ -98,6 +98,6 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command("save")
 		filename = self.window.active_view().file_name()
-		cmd = ["C:\\Windows\\System32\\sublime\\" + "cl.bat", "/c", "/Fa", filename, "&", "C:\\Windows\\System32\\sublime\\" + "subl.exe", filename.replace(".c", ".asm")]
+		cmd = ["C:\\Windows\\System32\\sublime\\cl.bat", "/c", "/Fa", filename, "&", "C:\\Windows\\System32\\sublime\\" + "subl.exe", filename.replace(".c", ".asm")]
 		cmexe(cmd, self.window)
 
