@@ -9,7 +9,7 @@ def cmexe(w, c):
 def chext(v):
 
 	n = v.file_name()
-	return v and n and ((n.endswith(".asm") and "m") or (n.endswith(".c") and "c") or None)
+	return v and n and (n.endswith(".asm") or n.endswith(".c")) and n[-1]
 
 def chpro(w):
 
