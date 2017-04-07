@@ -2,7 +2,7 @@ import sublime, sublime_plugin, os, hashlib
 
 subl_print = sublime.message_dialog
 
-def cmexe(c, w)
+def cmexe(c, w):
 
 	w.run_command("exec", {"cmd": c, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 
