@@ -6,10 +6,10 @@ def cmexe(w, c):
 
 	w.run_command("exec", {"cmd": c, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 
-def ifext(e, v):
+def chext(v):
 
 	n = v.file_name()
-	return v and n and n.endswith(e)
+	return v and n and ((n.endswith(".asm") and "m") or (n.endswith(".c") and "c") or None)
 
 def chpro(w):
 
@@ -47,8 +47,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 	def is_enabled(self):
 
-		v = self.window.active_view()
-		return ifext(".c", v) or ifext(".asm", v)
+		return chext(self.window.active_view())
 
 	def run(self):
 
@@ -71,10 +70,9 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 		w = self.window
 		v = w.active_view()
 		w.run_command("save")
-		if ifext(".c", v) or ifext(".asm", v):
+		if chext(v):
 
-			n = v.file_name()
-			cmexe(w, ["C:\\Windows\\System32\\sublime\\%sl.bat" % n[-1], "/c", n])
+			cmexe(w, ["C:\\Windows\\System32\\sublime\\%sl.bat" % chext(v), "/c", v.file_name()])
 			if "INFO: No tasks are running which match the specified criteria." not in chpro(w):
 
 				w.run_command("to_exe")
@@ -86,7 +84,7 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 
 	def is_enabled(self):
 
-		return ifext(".c", self.window.active_view())
+		return chext(self.window.active_view()) is "c"
 
 	def run(self):
 
