@@ -11,7 +11,7 @@ def cmexe(w, c):
 def chext(v):
 
 	n = v.file_name()
-	return v and n and (n.endswith(".asm") or n.endswith(".c")) and (n[-1] + "l")
+	return v and n and (n.endswith(".asm") or n.endswith(".c")) and ("%sl" % n[-1])
 
 def chpro(w):
 
