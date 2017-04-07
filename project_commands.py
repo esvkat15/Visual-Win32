@@ -24,10 +24,10 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		self.window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 		while True:
 
-			f = None
+			s = None
 			try:
 
-				f = open(n)
+				s = os.stat(n).st_size
 
 			except:
 
@@ -35,7 +35,10 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 			else:
 
-				f.close()
+				if s is 0:
+
+					continue
+
 				break
 			
 		#time.sleep(1)
