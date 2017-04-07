@@ -11,7 +11,7 @@ def cmexe(w, c):
 def chext(v):
 
 	n = v.file_name()
-	return v and n and (n.endswith(".asm") or n.endswith(".c")) and n[-1]
+	return v and n and (n.endswith(".asm") or n.endswith(".c")) and n[-1] + "l"
 
 def chpro(w):
 
@@ -75,7 +75,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 		r = chext(v)
 		if r:
 
-			cmexe(w, env + ["%sl" % r, "/c", v.file_name()])
+			cmexe(w, env + [r, "/c", v.file_name()])
 			if "INFO: No tasks are running which match the specified criteria." not in chpro(w):
 
 				w.run_command("to_exe")
@@ -87,7 +87,7 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 
 	def is_enabled(self):
 
-		return chext(self.window.active_view()) is "c"
+		return chext(self.window.active_view()) is "cl"
 
 	def run(self):
 
