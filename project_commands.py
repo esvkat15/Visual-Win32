@@ -47,7 +47,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 	def is_enabled(self):
 
-		return chext(self.window.active_view())
+		return chext(self.window.active_view()) and True
 
 	def run(self):
 
