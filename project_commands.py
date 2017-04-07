@@ -68,7 +68,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 	def run(self):
 
 		self.window.run_command("save")
-		c = None
+		#c = None
 		if ifext(".c", self.window.active_view()):
 
 			c = "c"
@@ -98,6 +98,6 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command("save")
 		filename = self.window.active_view().file_name()
-		cmd = ["C:\\Windows\\System32\\sublime\\cl.bat", "/c", "/Fa", filename, "&", "C:\\Windows\\System32\\sublime\\" + "subl.exe", filename.replace(".c", ".asm")]
+		cmd = ["C:\\Windows\\System32\\sublime\\cl.bat", "/c", "/Fa", filename, "&", "C:\\Windows\\System32\\sublime\\subl.exe", filename.replace(".c", ".asm")]
 		cmexe(cmd, self.window)
 
