@@ -87,7 +87,6 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 
 	def is_enabled(self):
 
-		subl_print(chext(self.window.active_view()))
 		return "c" in chext(self.window.active_view())
 
 	def run(self):
