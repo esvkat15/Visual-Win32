@@ -17,7 +17,7 @@ def chpro(window):
 	s.update(os.path.split(window.active_view().file_name())[0].encode())
 	n = "C:\\Windows\\Temp\\subl\\" + s.hexdigest() + ".txt"
 	cmd = ["md", os.path.split(n)[0], "2>", "nul", "&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", n]
-	window.run_command("exec", {"cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
+	window.run_command("exec", {"shell_cmd": cmd, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"})
 	while True:
 
 		s = None
