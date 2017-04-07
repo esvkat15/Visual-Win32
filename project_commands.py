@@ -80,7 +80,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 		if c:
 
 			cmd = ["C:\\Windows\\System32\\sublime\\%*[^cm]*%[cm]l.bat" % c, "/c", self.window.active_view().file_name()]
-			subl_print(cmd)
+			subl_print('cl' in cmd)
 			cmexe(cmd, self.window)
 			if "INFO: No tasks are running which match the specified criteria." not in chpro(self.window):
 
