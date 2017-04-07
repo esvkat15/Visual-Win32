@@ -68,18 +68,19 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 	def run(self):
 
 		self.window.run_command("save")
-		c = None
+		c = ""
 		if ifext(".c", self.window.active_view()):
 
-			c = "c"
+			c += ".c"
 
 		if ifext(".asm", self.window.active_view()):
 
-			c = "m"
+			c += ".asm"
 
 		if c:
 
-			cmd = ["C:\\Windows\\System32\\sublime\\%sl.bat" % c, "/c", self.window.active_view().file_name()]
+			cmd = ["C:\\Windows\\System32\\sublime\\%[^cm]*[cm]l.bat" % c, "/c", self.window.active_view().file_name()]
+			subl_print(cmd)
 			cmexe(cmd, self.window)
 			if "INFO: No tasks are running which match the specified criteria." not in chpro(self.window):
 
