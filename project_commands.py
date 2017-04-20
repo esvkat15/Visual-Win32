@@ -2,7 +2,7 @@ import sublime, sublime_plugin, os, hashlib
 
 subl_print = sublime.message_dialog
 
-env = ["C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat", "x86", "&"]
+env = ["C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat", "x86", "&&"]
 
 def cmexe(w, c):
 
@@ -11,14 +11,14 @@ def cmexe(w, c):
 def chext(v):
 
 	n = v.file_name()
-	return v and n and (n.endswith(".asm") or n.endswith(".c")) and ("%sl" % n[-1]) or False
+	return v and n and (n.endswith(".asm") or n.endswith(".c")) and ("%sl" % n[-1])
 
 def chpro(w):
 
 	s = hashlib.sha1()
 	s.update(os.path.split(w.active_view().file_name())[0].encode())
 	n = "C:\\Windows\\Temp\\subl\\" + s.hexdigest() + ".txt"
-	cmexe(w, ["md", os.path.split(n)[0], "2>", "nul", "&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", n])
+	cmexe(w, ["md", os.path.split(n)[0], "2>", "nul", "&&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", n])
 	while True:
 
 		try:
@@ -58,7 +58,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		n = os.path.split(w.active_view().file_name())[0] + "\\main.exe"
 		cmexe(w, ["taskkill", "/F", "/IM", "main.exe", "2>&1", ">", "nul"])
 		w.run_command("to_obj")
-		cmexe(w, env + ["link", "/OUT:" + n, n.replace( "\\main.exe", "\\*.obj"), "&", n])
+		cmexe(w, env + ["link", "/OUT:" + n, n.replace( "\\main.exe", "\\*.obj"), "&&", n])
 
 
 class ToObjCommand(sublime_plugin.WindowCommand):
