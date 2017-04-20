@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, os, hashlib
+import sublime, sublime_plugin, os, hashlib, time
 
 subl_print = sublime.message_dialog
 
@@ -76,7 +76,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 		if r:
 
 			cmexe(w, env + [r, "/c", v.file_name()])
-			subl_print(v.file_name())
+			time.sleep(1)
 			if "INFO: No tasks are running which match the specified criteria." not in chpro(w):
 
 				w.run_command("to_exe")
