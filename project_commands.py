@@ -77,7 +77,9 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 			subl_print("Hello")
 			cmexe(w, env + [r, "/c", v.file_name()])
-			if "INFO: No tasks are running which match the specified criteria." not in chpro(w):
+			fdgfdg = chpro(w)
+			subl_print(fdgfdg)
+			if "INFO: No tasks are running which match the specified criteria." not in fdgfdg:
 
 				w.run_command("to_exe")
 				
