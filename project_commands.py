@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, os, hashlib, time
+import sublime, sublime_plugin, os, hashlib
 
 subl_print = sublime.message_dialog
 
@@ -81,7 +81,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 			except:
 
-				t = ""
+				t = "invalid"
 
 			while True:
 
@@ -95,7 +95,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 				else:
 
-					if s is t:
+					if s in t:
 
 						continue
 
