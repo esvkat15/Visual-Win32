@@ -104,7 +104,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 					break
 
 
-			time.sleep(1)
+			time.sleep(10)
 			if "INFO: No tasks are running which match the specified criteria." not in chpro(w):
 
 				w.run_command("to_exe")
