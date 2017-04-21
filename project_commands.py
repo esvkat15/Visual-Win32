@@ -58,7 +58,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		n = os.path.split(w.active_view().file_name())[0] + "\\main.exe"
 		cmexe(w, ["taskkill", "/F", "/IM", "main.exe", "2>&1", ">", "nul"])
 		w.run_command("to_obj")
-		cmexe(w, env + ["link", "/OUT:" + n, n.replace( "\\main.exe", "\\*.obj"), "&", n])
+		cmexe(w, env + ["link", "/OUT:" + n, n.replace("\\main.exe", "\\*.obj"), "&", n])
 
 
 class ToObjCommand(sublime_plugin.WindowCommand):
@@ -71,12 +71,39 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 		w = self.window
 		v = w.active_view()
+		n = v.file_name()
 		w.run_command("save")
 		r = chext(v)
 		if r:
 
-			cmexe(w, env + [r, "/c", v.file_name()])
-			time.sleep(10)
+			cmexe(w, env + [r, "/c", n()])
+			try:
+
+				t = os.stat(n.replace(".*[casm]", ".obj")).st_mtime
+
+			except:
+
+				t = ""
+
+			while True:
+
+				try:
+
+					s = os.stat(n).st_mtime
+
+				except:
+
+					continue
+
+				else:
+
+					if s is t:
+
+						continue
+
+					break
+
+
 			if "INFO: No tasks are running which match the specified criteria." not in chpro(w):
 
 				w.run_command("to_exe")
