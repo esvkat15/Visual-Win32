@@ -101,8 +101,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 						continue
 
-					subl_print(s)
-					subl_print(t)
+					subl_print("hello")
 					break
 
 
