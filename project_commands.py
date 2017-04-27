@@ -74,7 +74,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 		r = chext(v)
 		if r:
 
-			cmexe(w, [r, "/c", n()])
+			cmexe(w, [r, "/c", n])
 			o = n.replace(".*[casm]", ".obj")
 			try:
 
