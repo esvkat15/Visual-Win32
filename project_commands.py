@@ -75,7 +75,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 		r = chext(v)
 		if r:
 
-			o = n.replace("\.(c|asm)", ".obj")
+			o = n.replace("\.(c|asm)$", ".obj")
 			try:
 
 				t = os.stat(o).st_ctime
@@ -124,5 +124,5 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 		w.run_command("save")
 		n = w.active_view().file_name()
 		cmexe(w, ["cl", "/c", "/Fa", n])
-		w.open_file(n.replace("\.c", ".asm"))
+		w.open_file(n.replace("\.c$", ".asm"))
 
