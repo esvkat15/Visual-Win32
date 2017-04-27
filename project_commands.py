@@ -75,9 +75,10 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 		if r:
 
 			cmexe(w, [r, "/c", n()])
+			o = n.replace(".*[casm]", ".obj")
 			try:
 
-				t = os.stat(n.replace(".*[casm]", ".obj")).st_mtime
+				t = os.stat(o).st_mtime
 
 			except:
 
@@ -87,7 +88,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 				try:
 
-					s = os.stat(n.replace(".*[casm]", ".obj")).st_mtime
+					s = os.stat(o).st_mtime
 
 				except:
 
@@ -95,7 +96,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 				else:
 
-					if s in t:
+					if s is t:
 
 						continue
 
