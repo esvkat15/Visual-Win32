@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, os, hashlib
+import sublime, sublime_plugin, os, hashlib, re
 
 subl_print = sublime.message_dialog
 
@@ -124,5 +124,5 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 		w.run_command("save")
 		n = w.active_view().file_name()
 		cmexe(w, ["cl", "/c", "/Fa", n])
-		w.open_file(n.replace(".c", ".asm"))
+		w.open_file(re.sub("\.c$", ".asm", n))
 
