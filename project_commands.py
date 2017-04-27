@@ -78,7 +78,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 			o = n.replace(".*[casm]", ".obj")
 			try:
 
-				t = os.stat(o).st_mtime
+				t = os.stat(o).st_ctime
 
 			except:
 
@@ -88,7 +88,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 				try:
 
-					s = os.stat(o).st_mtime
+					s = os.stat(o).st_ctime
 
 				except:
 
