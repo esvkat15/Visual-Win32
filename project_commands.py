@@ -75,7 +75,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 		r = chext(v)
 		if r:
 
-			o = n.replace("\\.[ca][sm]*", ".obj")
+			o = n.replace("\.(c|asm)", ".obj")
 			try:
 
 				t = os.stat(o).st_ctime
