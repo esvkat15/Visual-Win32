@@ -82,7 +82,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 			except:
 
-				t = "invalid"
+				t = ""
 
 			while True:
 
