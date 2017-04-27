@@ -87,7 +87,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 				try:
 
-					s = os.stat(n).st_mtime
+					s = os.stat(n.replace(".*[casm]", ".obj")).st_mtime
 
 				except:
 
@@ -99,6 +99,8 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 						continue
 
+					subl_print(s)
+					subl_print(t)
 					break
 
 
