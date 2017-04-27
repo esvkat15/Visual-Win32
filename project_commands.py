@@ -53,10 +53,11 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 		w = self.window
 		w.run_command("save_all")
-		n = os.path.split(w.active_view().file_name())[0] + "\\main.exe"
+		n = os.path.split(w.active_view().file_name())[0]
+		o = n + "\\main.exe"
 		cmexe(w, ["taskkill", "/F", "/IM", "main.exe", "2>&1", ">", "nul"])
 		w.run_command("to_obj")
-		cmexe(w, ["link", "/OUT:" + n, n.replace("\\main.exe", "\\*.obj"), "&", n])
+		cmexe(w, ["link", "/OUT:" + o, n + "\\*.obj", "&", o])
 
 
 class ToObjCommand(sublime_plugin.WindowCommand):
@@ -74,7 +75,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 		r = chext(v)
 		if r:
 
-			o = n.replace(".*[casm]", ".obj")
+			o = n.replace("\\.[ca][sm]*", ".obj")
 			try:
 
 				t = os.stat(o).st_ctime
@@ -123,5 +124,5 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 		w.run_command("save")
 		n = w.active_view().file_name()
 		cmexe(w, ["cl", "/c", "/Fa", n])
-		w.open_file(n.replace(".c", ".asm"))
+		w.open_file(n.replace("\\.c", ".asm"))
 
