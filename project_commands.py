@@ -124,7 +124,5 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 		w.run_command("save")
 		n = w.active_view().file_name()
 		cmexe(w, ["cl", "/c", "/Fa", n])
-		n[-1] = "a"
-		n += "sm"
-		w.open_file(n)
+		w.open_file(n.replace("\.c", ".asm"))
 
