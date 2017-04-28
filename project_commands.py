@@ -1,27 +1,45 @@
-import sublime, sublime_plugin, os, hashlib, re
+    ########...#     
+   ##########...#    
+  ############...#   
+ ###...#    ###...#  
+### esvkat15 ###...# 
+ ###...#    ###...#  
+  ############...#   
+   ##########...#    
+    ########...#     
 
-subl_print = sublime.message_dialog
+# import libraries
+import hashlib, os, re, sublime, sublime_plugin
 
-def cmexe(w, c):
+# subl_print = sublime.message_dialog # print shortcut
 
-	w.run_command("exec", {"cmd": ["C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat", "x86", "&"] + c, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
+# utility shortcuts
+sha1 = hashlib.sha1
+sub = re.sub
+split = os.path.split
+stat = os.stat
 
-def chext(v):
+def cmexe(window, command):
 
-	n = v.file_name()
-	return v and n and (n.endswith(".asm") or n.endswith(".c")) and ("%sl" % n[-1])
+	window.run_command("exec", {"cmd": ["C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat", "x86", "&"] + command, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 
-def chpro(w):
+def chext(view):
 
-	s = hashlib.sha1()
-	s.update(os.path.split(w.active_view().file_name())[0].encode())
-	n = "C:\\Windows\\Temp\\subl\\" + s.hexdigest() + ".txt"
-	cmexe(w, ["md", os.path.split(n)[0], "2>", "nul", "&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", n])
+	name = view.file_name()
+	endswith = name.endswith
+	return view and name and (endswith(".asm") or endswith(".c")) and ("%sl" % name[-1])
+
+def chpro(window):
+
+	sha = sha1()
+	sha.update(split(window.active_view().file_name())[0].encode())
+	name = "C:\\Windows\\Temp\\subl\\" + sha.hexdigest() + ".txt"
+	cmexe(window, ["md", split(name)[0], "2>", "nul", "&", "tasklist", "/FI", "IMAGENAME eq main.exe", "/FI", "SESSIONNAME eq Console", ">", name])
 	while True:
 
 		try:
 
-			s = os.stat(n).st_size
+			size = stat(name).st_size
 
 		except:
 
@@ -29,19 +47,19 @@ def chpro(w):
 
 		else:
 
-			if s is 0:
+			if size is 0:
 
 				continue
 
 			break
 
 
-	with open(n) as f:
+	with open(name) as file:
 
-		s = f.read()
+		string = file.read()
 		
-	cmexe(w, ["del", n])
-	return s
+	cmexe(window, ["del", name])
+	return string
 
 class ToExeCommand(sublime_plugin.WindowCommand):
 
@@ -51,13 +69,14 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
-		w = self.window
-		w.run_command("save_all")
-		n = os.path.split(w.active_view().file_name())[0]
-		o = n + "\\main.exe"
-		cmexe(w, ["taskkill", "/F", "/IM", "main.exe", "2>&1", ">", "nul"])
-		w.run_command("to_obj")
-		cmexe(w, ["link", "/OUT:" + o, n + "\\*.obj", "&", o])
+		window = self.window
+		run_command = window.run_command
+		run_command("save_all")
+		name = split(window.active_view().file_name())[0]
+		program = name + "\\main.exe"
+		cmexe(window, ["taskkill", "/F", "/IM", "main.exe", "2>&1", ">", "nul"])
+		run_command("to_obj")
+		cmexe(window, ["link", "/OUT:" + program, name + "\\*.obj", "&", program])
 
 
 class ToObjCommand(sublime_plugin.WindowCommand):
@@ -68,29 +87,30 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
-		w = self.window
-		v = w.active_view()
-		n = v.file_name()
-		w.run_command("save")
-		r = chext(v)
-		if r:
+		window = self.window
+		view = window.active_view()
+		name = view.file_name()
+		run_command = window.run_command
+		run_command("save")
+		tool = chext(view)
+		if tool:
 
-			o = re.sub("\.(c|asm)$", ".obj", n)
+			obj = sub("\.(c|asm)$", ".obj", name)
 			try:
 
-				t = os.stat(o).st_ctime
+				initial = stat(obj).st_ctime
 
 			except:
 
-				t = ""
+				initial = ""
 
-			s = t
-			cmexe(w, [r, "/c", n])
+			time = initial
+			cmexe(window, [tool, "/c", name])
 			while True:
 
 				try:
 
-					s = os.stat(o).st_ctime
+					time = stat(obj).st_ctime
 
 				except:
 
@@ -98,16 +118,16 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 				else:
 
-					if s is t:
+					if time is initial:
 
 						continue
 
 					break
 
 
-			if "INFO: No tasks are running which match the specified criteria." not in chpro(w):
+			if "INFO: No tasks are running which match the specified criteria." not in chpro(window):
 
-				w.run_command("to_exe")
+				run_command("to_exe")
 				
 
 
@@ -120,9 +140,9 @@ class ToAsmCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
-		w = self.window
-		w.run_command("save")
-		n = w.active_view().file_name()
-		cmexe(w, ["cl", "/c", "/Fa", n])
-		w.open_file(re.sub("\.c$", ".asm", n))
+		window = self.window
+		window.run_command("save")
+		name = window.active_view().file_name()
+		cmexe(window, ["cl", "/c", "/Fa", name])
+		window.open_file(sub("\.c$", ".asm", name))
 
