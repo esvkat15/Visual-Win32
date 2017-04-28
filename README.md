@@ -1,6 +1,8 @@
 # Visual-Win32
 Visual C+MASM Build Plugin for Win32 Development
 
+Note: You will need Visual Studio Community 2015 installed to use this plugin
+
 to install current version:
 
 	1. install sublime text 3: https://www.sublimetext.com/3
