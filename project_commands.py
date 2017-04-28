@@ -1,3 +1,4 @@
+
     ########...#     
    ##########...#    
   ############...#   
@@ -12,23 +13,25 @@
 import hashlib, os, re, sublime, sublime_plugin
 
 # subl_print = sublime.message_dialog # print shortcut
-
 # utility shortcuts
 sha1 = hashlib.sha1
 sub = re.sub
 split = os.path.split
 stat = os.stat
 
+# execute visual studio shell script
 def cmexe(window, command):
 
 	window.run_command("exec", {"cmd": ["C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat", "x86", "&"] + command, "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$", "shell": True})
 
+# check file extention and get tool name
 def chext(view):
 
 	name = view.file_name()
 	endswith = name.endswith
 	return view and name and (endswith(".asm") or endswith(".c")) and ("%sl" % name[-1])
 
+# check if main.exe process is running
 def chpro(window):
 
 	sha = sha1()
@@ -61,12 +64,15 @@ def chpro(window):
 	cmexe(window, ["del", name])
 	return string
 
+# "Run Project" button macro
 class ToExeCommand(sublime_plugin.WindowCommand):
 
+	# active if currently editing asm or c file
 	def is_enabled(self):
 
 		return chext(self.window.active_view()) and True
 
+	# save all files, compile current file, link project, and run program
 	def run(self):
 
 		window = self.window
@@ -79,12 +85,15 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		cmexe(window, ["link", "/OUT:" + program, name + "\\*.obj", "&", program])
 
 
+# CTRL + S shortcut macro
 class ToObjCommand(sublime_plugin.WindowCommand):
 
+	# always active
 	def is_enabled(self):
 
 		return True
 
+	# save and compile current file, restart program if already running
 	def run(self):
 
 		window = self.window
@@ -132,12 +141,15 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 
 
+# "Generate Assembly" button macro
 class ToAsmCommand(sublime_plugin.WindowCommand):
 
+	# active if editing c file
 	def is_enabled(self):
 
 		return "c" in chext(self.window.active_view())
 
+	# compile file and open assembly step
 	def run(self):
 
 		window = self.window
