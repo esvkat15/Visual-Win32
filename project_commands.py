@@ -76,23 +76,30 @@ def chpro(window):
 		# copies file contents
 		string = file.read()
 
-	# deletes temporary file and returns contents
+	# prompts cmd to delete temporary file, then stalls until it completes
 	cmexe(window, ["del", temp])
 	while True:
 
+		# expects error depending on whether temporary file exists
 		try:
 
+			# pokes file for error
 			stat(temp)
 
+		# temporary file doesnt exist
 		except:
 
+			# temporary file is deleted, stops waiting
 			break
 
+		# temporary file exists
 		else:
 
+			# keeps waiting for temporary file to be deleted
 			continue
 
 
+	# returns task information
 	return string
 
 # "Run Project" button macro
@@ -121,9 +128,9 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 		# saves and compiles current file, then links and runs project
 		run_command("to_obj")
-		subl_print("in run")
+		#subl_print("in run")
 		cmexe(window, ["link", "/OUT:" + program, directory + "\\*.obj", "&", program])
-		subl_print("finished")
+		#subl_print("finished")
 
 
 # CTRL + S shortcut macro
@@ -191,7 +198,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 
 			# checks if process is running
-			subl_print("in save")
+			#subl_print("in save")
 			if "INFO: No tasks are running which match the specified criteria." not in chpro(window):
 
 				# restarts project
