@@ -108,6 +108,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 		run_command("to_obj")
 		subl_print("in run")
 		cmexe(window, ["link", "/OUT:" + program, directory + "\\*.obj", "&", program])
+		subl_print("finished")
 
 
 # CTRL + S shortcut macro
