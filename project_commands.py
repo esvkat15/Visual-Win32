@@ -78,6 +78,21 @@ def chpro(window):
 
 	# deletes temporary file and returns contents
 	cmexe(window, ["del", temp])
+	while True:
+
+		try:
+
+			stat(temp)
+
+		except:
+
+			break
+
+		else:
+
+			continue
+
+
 	return string
 
 # "Run Project" button macro
