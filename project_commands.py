@@ -106,6 +106,7 @@ class ToExeCommand(sublime_plugin.WindowCommand):
 
 		# saves and compiles current file, then links and runs project
 		run_command("to_obj")
+		subl_print("in run")
 		cmexe(window, ["link", "/OUT:" + program, directory + "\\*.obj", "&", program])
 
 
@@ -174,6 +175,7 @@ class ToObjCommand(sublime_plugin.WindowCommand):
 
 
 			# checks if process is running
+			subl_print("in save")
 			if "INFO: No tasks are running which match the specified criteria." not in chpro(window):
 
 				# restarts project
