@@ -1,5 +1,5 @@
 
-		    ########...#     
+		    ########...#     current issues: compiling assembly with win32 libraries does not work
 		   ##########...#    
 		  ############...#   
 		 ###...#    ###...#  
