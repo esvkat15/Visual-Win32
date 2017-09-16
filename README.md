@@ -1,7 +1,7 @@
 # Visual-Win32
 Visual C+MASM Build Plugin for Win32 Development
 
-Note: You will need Visual Studio Community 2015 installed to use this plugin
+Note: You will need Visual Studio Community 2015 installed to use this plugin ( https://www.visualstudio.com/vs/older-downloads/ )
 
 to install current version:
 
